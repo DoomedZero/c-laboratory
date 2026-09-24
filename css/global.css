@@ -1,0 +1,479 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 1.5rem;
+    line-height: 1.6;
+    background-color: #0d1117;
+    color: #c9d1d9;
+    height: 100vh;
+    overflow: hidden;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+/* ==========================================================
+   GLOBAL APP BOUNDARY (Constrains both Navbar & Layout)
+   ========================================================== */
+:root {
+    --app-max-width: 1200px;
+    /* Adjust between 1100px - 1280px to taste */
+    --border-color: #30363d;
+    --sidebar-bg: #161b22;
+}
+
+/* --- Header / Navbar --- */
+.site-header {
+    height: 60px;
+    width: 100%;
+    background-color: #0d1117;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.site-nav {
+    max-width: var(--app-max-width);
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    /* Matches the layout margin */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+}
+
+.brand-name {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #f0f6fc;
+    letter-spacing: -0.02em;
+}
+
+.icon-link {
+    color: #8b949e;
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    border-radius: 6px;
+    transition: color 0.15s ease;
+}
+
+.icon-link:hover {
+    color: #f0f6fc;
+}
+
+/* ==========================================================
+   MAIN WORKSPACE (Centered, Bounded, No Edge Sticking)
+   ========================================================== */
+.layout {
+    max-width: var(--app-max-width);
+    margin: 0 auto;
+    /* Centers the entire workbench */
+    height: calc(100vh - 60px);
+    /* Exactly fills below navbar */
+    display: flex;
+    overflow: hidden;
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+}
+
+/* Left Sidebar */
+.sidebar {
+    width: 260px;
+    /* Tight, compact sidebar width */
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    height: 100%;
+}
+
+.sidebar-header {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+#search-input {
+    width: 100%;
+    background: #0d1117;
+    border: 1px solid var(--border-color);
+    color: #c9d1d9;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    outline: none;
+}
+
+#search-input:focus {
+    border-color: #58a6ff;
+}
+
+.nav-tree {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.85rem 0.6rem;
+}
+
+.category-group {
+    margin-bottom: 1.25rem;
+}
+
+.category-title {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #8b949e;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.35rem;
+    padding-left: 8px;
+    font-weight: 600;
+}
+
+.nav-item {
+    display: block;
+    padding: 5px 8px;
+    color: #c9d1d9;
+    text-decoration: none;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    margin-bottom: 2px;
+}
+
+.nav-item:hover {
+    background-color: #21262d;
+    color: #f0f6fc;
+}
+
+.nav-item.active {
+    background-color: #1f6feb;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+/* Main Reader Panel (Directly adjacent to sidebar, no floating voids) */
+.content-view {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2.25rem 2.5rem;
+    /* Tight, clean readable gutter */
+    background-color: #0d1117;
+}
+
+#active-snippet-container {
+    width: 100%;
+    max-width: 760px;
+    /* Keeps code & notes within comfortable eye tracking */
+}
+
+.badge {
+    display: inline-block;
+    background: #238636;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 2px 0.75rem;
+    border-radius: 12px;
+    margin-bottom: 0.6rem;
+}
+
+.snippet-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #f0f6fc;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+}
+
+.snippet-prompt {
+    color: #8b949e;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin-bottom: 1.5rem;
+}
+
+/* Header Bar: Language tag on left, Copy button on right */
+.code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1f242c;
+    border-bottom: 1px solid var(--border-color);
+    padding: 6px 12px;
+}
+
+.code-lang {
+    font-size: 0.76rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8b949e;
+    user-select: none;
+}
+
+/* Sleek Copy Button */
+.copy-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: #8b949e;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.78rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+}
+
+.copy-btn:hover {
+    color: #f0f6fc;
+    background-color: #2b313a;
+    border-color: var(--border-color);
+}
+
+.copy-btn.copied {
+    color: #3fb950;
+    border-color: rgba(63, 185, 80, 0.4);
+}
+
+/* --- MDN Code Block Shell --- */
+.code-wrapper {
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+    background-color: #161b22;
+}
+
+/* Code Content Area */
+.code-wrapper pre {
+    margin: 0 !important;
+    background: #161b22 !important;
+    padding: 1rem 1.25rem !important; /* Clean uniform padding, no artificial top space needed */
+    font-size: 0.9rem !important;
+    line-height: 1.6 !important;
+}
+
+.code-wrapper pre,
+.code-wrapper pre code {
+    white-space: pre-wrap !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+/* --- Terminal / Output Box with Same Wrap Behavior --- */
+.output-box {
+    background: #161b22;
+    border: 1px solid var(--border-color);
+    border-left: 3px solid #58a6ff;
+    border-radius: 4px;
+    padding: 0.85rem 1rem;
+    font-family: monospace;
+    font-size: 0.88rem;
+    color: #c9d1d9;
+    white-space: pre-wrap;                   /* Wraps long arrays/objects to the next line */
+    word-break: break-word;
+}
+
+/* --- MDN Sub-bar & Close Button: Hidden on Desktop (> 800px) --- */
+.mobile-subbar {
+    display: none;
+}
+
+.sidebar-title-row {
+    display: none;
+}
+
+.sidebar-overlay {
+    display: none;
+}
+
+/* --- Code Block Container with Max-Width --- */
+.code-wrapper {
+    position: relative;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+    max-width: 100%; /* Matches container boundary */
+}
+
+/* ==========================================================
+   MDN DRAWER BREAKPOINT (<= 800px)
+   ========================================================== */
+@media (max-width: 800px) {
+
+    /* 1. Unfreeze window scroll on mobile so articles flow naturally */
+    body {
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+    }
+
+    /* 2. MDN Sub-bar */
+    .mobile-subbar {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        /* Aligns toggle button flush to the left */
+        height: 44px;
+        padding: 0 1.25rem;
+        background-color: #161b22;
+        border-bottom: 1px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        z-index: 50;
+    }
+
+    .subbar-toggle-btn {
+        background: transparent;
+        border: 1px solid var(--border-color);
+        color: #f0f6fc;
+        padding: 5px 12px;
+        border-radius: 6px;
+        font-size: 0.82rem;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+    }
+
+    .subbar-toggle-btn:hover {
+        background-color: #21262d;
+    }
+
+    /* 3. The Layout collapses from flex two-column to single block */
+    .layout {
+        border-left: none;
+        border-right: none;
+        height: auto;
+        min-height: calc(100vh - 104px);
+        /* 100vh minus header (60px) + subbar (44px) */
+        display: block;
+    }
+
+    /* 4. Sidebar becomes an MDN Drawer */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 310px;
+        max-width: 85vw;
+        background-color: #161b22;
+        border-right: 1px solid var(--border-color);
+        z-index: 1000;
+        transform: translateX(-100%);
+        /* Stowed away off-screen */
+        transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.7);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+        /* Slide into view */
+    }
+
+    /* Drawer Header with Title & ✕ Button */
+    .sidebar-title-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.75rem;
+    }
+
+    .sidebar-heading {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #f0f6fc;
+    }
+
+    .drawer-close-btn {
+        background: transparent;
+        border: none;
+        color: #8b949e;
+        font-size: 1.1rem;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 4px;
+        line-height: 1;
+    }
+
+    .drawer-close-btn:hover {
+        color: #f0f6fc;
+        background-color: #21262d;
+    }
+
+    /* 5. Backdrop Dimming */
+    .sidebar-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.65);
+        backdrop-filter: blur(2px);
+        z-index: 999;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+    }
+
+    .sidebar-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /* 6. Content View inside Mobile Viewport */
+    .content-view {
+        padding: 1.75rem 1.25rem 3rem 1.25rem;
+        overflow-y: visible;
+        height: auto;
+    }
+
+    .snippet-title {
+        font-size: 1.6rem;
+    }
+
+    .code-wrapper pre {
+        overflow-x: auto;
+        /* Swipable code lines */
+        -webkit-overflow-scrolling: touch;
+        font-size: 0.86rem !important;
+    }
+
+    .output-box {
+        overflow-x: auto;
+    }
+}
+
+.no-scrollbar {
+  scrollbar-width: none; /* Hides scrollbar completely */
+}
+
+.no-scrollbar {
+  /* IE and older Edge */
+  -ms-overflow-style: none;
+
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* Ensure content remains scrollable */
+  overflow: auto; /* or overflow-y: scroll */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
