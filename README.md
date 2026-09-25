@@ -1,4 +1,4 @@
-# ⚡ JavaScript Playground
+# ⚡ C Laboratory
 
 A interactive "Lab Manual" which starts from lab exercises of my "College" to wherever my curosity leads me to.
 
